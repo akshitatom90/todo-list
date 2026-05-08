@@ -1,58 +1,24 @@
-import { useEffect, useState } from "react";
 import { useRoutes, Navigate } from "react-router";
 import Login from "../pages/Login";
-import SignUp from "../pages/SignUp";
 import TodoPage from "../pages/Todo";
 import ProtectedRoute from "../components/ProtectedRoute";
-import { isLoggedIn } from "../services"; 
+import SignUp from "../pages/SignUp";
 
 function AppRoutes() {
-  const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    async function check() {
-      try {
-        const res = await isLoggedIn(); // ✅ fixed name
-        setLoggedIn(res.isLoggedIn);
-      } catch (err) {
-        setLoggedIn(false);
-      }
-      setLoading(false);
-    }
-    check();
-  }, []);
-
   const publicRoutes = [
     {
       path: "/login",
-      element: loading ? (
-        <div>Loading...</div>
-      ) : loggedIn ? (
-        <Navigate to="/todos" />
-      ) : (
-        <Login />
-      ),
+      element:  <Login />
     },
     {
       path: "/signup",
-      element: loading ? (
-        <div>Loading...</div>
-      ) : loggedIn ? (
-        <Navigate to="/todos" />
-      ) : (
-        <SignUp />
-      ),
+      element: <SignUp />
     },
   ];
 
   const protectedRoutes = [
     {
-      element: loading ? (
-        <div>Loading...</div>
-      ) : (
-        <ProtectedRoute isLoggedIn={loggedIn} />
-      ),
+      element: <ProtectedRoute />,
       children: [
         {
           path: "/todos",
