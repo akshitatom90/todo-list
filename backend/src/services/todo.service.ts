@@ -30,37 +30,46 @@ export async function gettodos(user: User) : Promise<Todo[]> {
     const todos = await prisma.todo.findMany({
         where: {
             userId: user.userId
+        },
+        orderBy: {
+            createdAt : "desc"
         }
     })
     return todos;  
 }
 
-interface updatetDto {
-    title: string;
-    iscompleted: boolean;
+
+interface UpdateTodoDto {
+    title?: string;
+    isCompleted?: boolean;
     user: User;
     todoId: string;
 }
 
-export async function updatetodos(updatetDto: updatetDto) : Promise<Todo>  {
+export async function updatetodos(
+    updateTodoDto: UpdateTodoDto
+): Promise<Todo> {
 
-    if (!updatetDto.title && !updatetDto.iscompleted) {
-        throw new Error("Invalid todo data");
+    if (
+        updateTodoDto.title === undefined &&
+        updateTodoDto.isCompleted === undefined
+    ) {
+        throw new Error(`Invalid todo data hello world, ${updateTodoDto}`);
     }
 
-    const updateData : any = {};
+    const updateData: any = {};
 
-    if (updatetDto.title) {
-        updateData.title = updatetDto.title;
+    if (updateTodoDto.title !== undefined) {
+        updateData.title = updateTodoDto.title;
     }
 
-    if (updatetDto.iscompleted !== undefined) {
-        updateData.isCompleted = updatetDto.iscompleted;
+    if (updateTodoDto.isCompleted !== undefined) {
+        updateData.isCompleted = updateTodoDto.isCompleted;
     }
-   
+
     const updatedtodos = await prisma.todo.update({
         where: {
-            id: updatetDto.todoId
+            id: updateTodoDto.todoId
         },
         data: updateData
     });

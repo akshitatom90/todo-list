@@ -20,7 +20,7 @@ export async function loginUser(req: Request, res: Response) {
       sameSite: "lax"
     });
 
-    res.send({ message: 'Login successful', token });
+    res.send({ message: 'Login successful' });
   } catch (error: any) {
     res.status(400).send({ error: error.message });
   }

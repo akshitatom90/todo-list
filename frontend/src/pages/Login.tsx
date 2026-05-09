@@ -14,12 +14,9 @@ function Login() {
       const data = await loginUser(email, password);
       console.log(data)
 
-    if (data.success) {
+    if (data.message) {
       navigate("/todos");
     }
-//     if (data.success) {
-//   window.location.href = "/todos";
-// }
   }
 
   return (

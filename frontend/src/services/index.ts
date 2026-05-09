@@ -12,7 +12,7 @@ export async function isLoggedIn (){
         };
     } catch (error) {
         return {
-            isLoggedIn: false,
+            isLoggedIn: false,  
             user: null
         }
     }
@@ -62,7 +62,7 @@ export async function signupuser (email: string, password: string, name: string)
 
 export async function createTodoUser (title: string) {
     try {
-        const data = await fetch("http://localhost:9000/api/v1/todo/create", {
+        const data = await fetch("http://localhost:9000/api/v1/todo", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -77,4 +77,61 @@ export async function createTodoUser (title: string) {
         console.error("Failed to create todo:", error);
         throw error;
     }
+}
+
+export async function getTodos () {
+    try {
+        const data = await fetch("http://localhost:9000/api/v1/todo", {
+            method: "GET",
+            credentials: "include"
+        });     
+        const response = await data.json();
+        return response;    
+    }   catch (error) {
+        console.error("Failed to fetch todos:", error);
+        throw error;
+    }
+}
+
+// iscompleted
+
+export async function updateTodo(id: string, iscompleted: boolean) {
+
+    try {
+        const data = await fetch(`http://localhost:9000/api/v1/todo/${id}`, {
+            method: "PUT",
+            credentials: "include",
+            body: JSON.stringify({ iscompleted: iscompleted }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+
+        });
+        const response = await data.json();
+        return response;
+    } catch (error) {
+        console.error("Failed to update todo:", error);
+        throw error;
+    }
+
+}
+
+export async function handeldelete(id: string){
+    try {
+        const data = await fetch(`http://localhost:9000/api/v1/todo/${id}` ,{
+            method : "DELETE",
+            credentials: "include",
+            headers:{
+                "Content-Type" : "application/json",
+            },
+        });
+
+        const response  = await data.json();
+        return response;
+    } catch (error) {
+        console.log("failed to delete todo" , error);
+        throw error;
+        
+    }
+
 }

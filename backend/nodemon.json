@@ -2,5 +2,5 @@
   "watch": ["src", "prisma"],
   "ext": "ts,prisma,json",
   "ignore": ["src/generated/**"],
-  "exec": "tsx src/index.ts"
+  "exec": "node --inspect --import tsx src/index.ts"
 }

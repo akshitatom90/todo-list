@@ -51,7 +51,7 @@ export async function loginuser(loginDto: loginDto) : Promise<string> {
         where:{
             email : loginDto.email
         }
-    })
+    })  
 
     if(!existingUser){
         throw new Error("not matching crendentials")

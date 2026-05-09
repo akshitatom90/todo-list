@@ -27,24 +27,23 @@ export async function getTodos(req: Request, res: Response) {
 
 
 
-export async function updateTodos(req :Request, res: Response) {
+export async function updateTodos(req: Request, res: Response) {
 
-    
-    if(!req.user){
+    if (!req.user) {
         return res.status(401).send({ message: "Unauthorized" });
     }
 
     const todoId = req.params.id as string;
+
     const updatedtodos = await updatetodos({
-        title: req.body.title,
-        iscompleted: req.body.iscompleted,
+        title: req.body?.title,
+        isCompleted: req.body?.iscompleted,
         user: req.user,
         todoId: todoId
     });
 
     res.send(updatedtodos);
 }
-
 
 
 export async function deleteTodo(req: Request, res: Response) {

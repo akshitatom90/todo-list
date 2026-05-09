@@ -2,14 +2,15 @@ import { useState } from "react";
 import { createTodoUser } from "../services";
 
 
-function createTodo() {
+function TodoForm( props: {todoArr: any} ) {
     const [title, setTitle] = useState("");
 
     async function handleCreate(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log(title)
-        const todos = await createTodoUser(title);
-        console.log(todos);
+        const todo = await createTodoUser(title);
+        props.todoArr((prev: any) => [todo,...prev]);
+        setTitle("");
     }
 
   return (
@@ -22,4 +23,4 @@ function createTodo() {
   ) 
 }
 
-export default createTodo
+export default TodoForm;
