@@ -1,8 +1,9 @@
 import { data } from "react-router";
+import { API_URL } from "../config";
 
 export async function isLoggedIn (){
     try {
-        const data = await fetch("http://localhost:9000/api/v1/user/isLogedIn", {
+        const data = await fetch( `${API_URL}/api/v1/user/isLogedIn`, {
             method: "GET",
             credentials: "include"
         })
@@ -23,7 +24,7 @@ export async function isLoggedIn (){
 
 export async function loginUser (email: string, password: string) {
     try {
-        const data = await fetch("http://localhost:9000/api/v1/user/login", {
+        const data = await fetch(`${API_URL}/api/v1/user/login`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -43,7 +44,7 @@ export async function loginUser (email: string, password: string) {
 
 export async function signupuser (email: string, password: string, name: string) {
     try {
-        const data = await fetch("http://localhost:9000/api/v1/user/register", {
+        const data = await fetch(`${API_URL}/api/v1/user/register`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -64,7 +65,7 @@ export async function signupuser (email: string, password: string, name: string)
 
 export async function createTodoUser (title: string) {
     try {
-        const data = await fetch("http://localhost:9000/api/v1/todo", {
+        const data = await fetch(`${API_URL}/api/v1/todo`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -83,7 +84,7 @@ export async function createTodoUser (title: string) {
 
 export async function getTodos () {
     try {
-        const data = await fetch("http://localhost:9000/api/v1/todo", {
+        const data = await fetch(`${API_URL}/api/v1/todo`, {
             method: "GET",
             credentials: "include"
         });     
@@ -100,7 +101,7 @@ export async function getTodos () {
 export async function updateTodo(id: string, iscompleted: boolean) {
 
     try {
-        const data = await fetch(`http://localhost:9000/api/v1/todo/${id}`, {
+        const data = await fetch(`${API_URL}/api/v1/todo/${id}`, {
             method: "PUT",
             credentials: "include",
             body: JSON.stringify({ iscompleted: iscompleted }),
@@ -120,7 +121,7 @@ export async function updateTodo(id: string, iscompleted: boolean) {
 
 export async function handeldelete(id: string){
     try {
-        const data = await fetch(`http://localhost:9000/api/v1/todo/${id}` ,{
+        const data = await fetch(`${API_URL}/api/v1/todo/${id}` ,{
             method : "DELETE",
             credentials: "include",
             headers:{
@@ -139,7 +140,7 @@ export async function handeldelete(id: string){
 
     export async function logoutUser(){
         try {
-            const data = await fetch("http://localhost:9000/api/v1/user/logout",{
+            const data = await fetch(`${API_URL}/api/v1/user/logout`,{
                 method : "POST",
                 credentials: "include",
                 headers: {
