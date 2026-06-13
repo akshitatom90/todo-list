@@ -1,3 +1,5 @@
+import { data } from "react-router";
+
 export async function isLoggedIn (){
     try {
         const data = await fetch("http://localhost:9000/api/v1/user/isLogedIn", {
@@ -133,5 +135,23 @@ export async function handeldelete(id: string){
         throw error;
         
     }
-
 }
+
+    export async function logoutUser(){
+        try {
+            const data = await fetch("http://localhost:9000/api/v1/user/logout",{
+                method : "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+        });
+        const respone = await data.json();
+        return respone;
+       }   catch (error) {
+        console.log("logout user successful" , error); 
+            throw error;
+        }
+    }
+
+    

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import CreateTodo from "../components/TodoForm";
-import { getTodos, handeldelete, updateTodo } from "../services";
+import { getTodos, handeldelete, isLoggedIn, logoutUser, updateTodo } from "../services";
+import { useNavigate } from "react-router";
+import ProfileMenu from "../components/ProfileMenu";
+// import Logout from "./Logout";
 
 interface Todotype {
   id: string;
@@ -12,26 +15,46 @@ interface Todotype {
 }
 
 function Todo() {
-  const [todo, settodo] = useState<Todotype[]>([]);
 
+  const [name, setName] = useState("");
+
+
+useEffect(()=> {
+    async function checkUser() {
+
+    const data = await isLoggedIn();
+
+    setName(data.user.userName);
+  }
+
+  checkUser();
+},[]);
+
+
+
+
+  const [todo, settodo] = useState<Todotype[]>([]);
   async function handelUpdateTodo(item: Todotype) {
     const data = await updateTodo(item.id, !item.isCompleted);
     console.log(data, "updated successfully");
-    settodo((prev) => prev.map((todo) => (todo.id === item.id ? { ...todo, isCompleted: data.isCompleted } : todo)));
+    settodo((prev) =>
+      prev.map((todo) =>
+        todo.id === item.id ? { ...todo, isCompleted: data.isCompleted } : todo,
+      ),
+    );
   }
 
-  async function handelDelete(item : Todotype) {
+  async function handelDelete(item: Todotype) {
+    const isconfirmed = confirm("are you sure you want to delete this todo?");
 
-    const isconfirmed = confirm("are you sure you want to delete this todo?")
-
-    if(!isconfirmed){
+    if (!isconfirmed) {
       return;
     }
 
     const data = await handeldelete(item.id);
     console.log(data, "deleted successfully");
 
-    settodo((prev) => prev.filter(element => element.id !== item.id))
+    settodo((prev) => prev.filter((element) => element.id !== item.id));
   }
 
   useEffect(() => {
@@ -44,20 +67,32 @@ function Todo() {
 
   return (
     <div>
-      <CreateTodo todoArr={settodo} />
-      {todo.map((item) => (
-        <div key={item.id} style={{ display: "flex", gap: "10px" }}>
-          {/* {item.isCompleted ? "completed" : "not completed"} - {item.title} */}
-          <input
-            onClick={() => handelUpdateTodo(item)}
-            type="checkbox"
-            checked={item.isCompleted}
-          />
-          <p> {item.title} </p>
-          <p onClick={()=> handelDelete(item)}> 🗑️ </p>
-        </div>
-      ))}
+
+    <div style={{ display: "flex", justifyContent: "flex-end" ,alignItems: "center"}}>
+
+      <ProfileMenu name={name} />
+
     </div>
+
+    <CreateTodo todoArr={settodo} />
+
+    {todo.map((item) => (
+      <div key={item.id} style={{ display: "flex", gap: "10px" }}>
+
+        <input
+          onClick={() => handelUpdateTodo(item)}
+          type="checkbox"
+          checked={item.isCompleted}
+        />
+
+        <p>{item.title}</p>
+
+        <p onClick={() => handelDelete(item)}>🗑️</p>
+
+      </div>
+    ))}
+
+  </div>
   );
 }
 

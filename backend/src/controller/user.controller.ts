@@ -33,3 +33,15 @@ export async function isLogedIn(req:Request , res: Response){
         res.status(400).send({ error: error.message });
     }   
 }
+
+export async function logoutUser(req:Request , res:Response){
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax"
+  });
+
+  res.json({
+    message: "logout successful"
+  });
+}
