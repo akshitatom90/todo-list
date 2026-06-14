@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import CreateTodo from "../components/TodoForm";
-import { getTodos, handeldelete, isLoggedIn, logoutUser, updateTodo } from "../services";
-import { useNavigate } from "react-router";
+import { getTodos, handeldelete, isLoggedIn, updateTodo } from "../services";
 import ProfileMenu from "../components/ProfileMenu";
 // import Logout from "./Logout";
 
@@ -24,7 +23,7 @@ useEffect(()=> {
 
     const data = await isLoggedIn();
 
-    setName(data.user.userName);
+      setName(data.user.userName);
   }
 
   checkUser();

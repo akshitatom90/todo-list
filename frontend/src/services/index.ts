@@ -1,4 +1,3 @@
-import { data } from "react-router";
 import { API_URL } from "../config";
 
 export async function isLoggedIn (){
