@@ -8,7 +8,10 @@ import cors from "cors";
 const app = express();
 
 app.use(cors({
-  origin: "true",
+  origin: [
+    "http://localhost:5173",
+    "https://todo-list-wheat-six-ta4mdlax88.vercel.app"
+  ],
   credentials: true
 }));
 
